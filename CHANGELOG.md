@@ -1,3 +1,9 @@
+## 1.2.8
+
+- Removed dependency on deprecated `Registrar` class
+- Updated plugin registration method for compatibility with latest Flutter versions
+- Fixed "cannot find symbol class Registrar" error
+
 ## 1.2.7
 
 - Fixed FlutterView class not found error in newer Flutter versions

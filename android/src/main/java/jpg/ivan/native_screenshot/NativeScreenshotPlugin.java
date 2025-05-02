@@ -33,7 +33,6 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /**
  * NativeScreenshotPlugin
@@ -83,21 +82,13 @@ public class NativeScreenshotPlugin implements MethodCallHandler, FlutterPlugin,
 		); // initPlugin()
 	} // onAttachedToEngine()
 
-	// Old v1 register method
-	// FIX: Make instance variables set with the old method
-	public static void registerWith(Registrar registrar) {
-		Log.println(Log.INFO, TAG, "Using *OLD* registrar method!");
-
-		NativeScreenshotPlugin instance = new NativeScreenshotPlugin();
-
-		instance.initPlugin(
-				registrar.context(),
-				registrar.messenger(),
-				registrar.activity(),
-				registrar.view()
-		); // initPlugin()
+	// Updated for compatibility with newer Flutter versions 
+	// Support for the legacy v1 embedding has been removed
+	@SuppressWarnings("deprecation")
+	public static void registerWith(Object registrar) {
+		Log.println(Log.INFO, TAG, "Legacy v1 embedding registration is not supported");
+		Log.println(Log.INFO, TAG, "Plugin now only supports the new embedding system");
 	} // registerWith()
-
 
 	// Activity condensed methods
 	private void attachActivity(ActivityPluginBinding binding) {

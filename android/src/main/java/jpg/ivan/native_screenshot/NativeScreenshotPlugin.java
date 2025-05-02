@@ -34,7 +34,6 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
-import io.flutter.view.FlutterView;
 
 /**
  * NativeScreenshotPlugin
@@ -340,11 +339,17 @@ public class NativeScreenshotPlugin implements MethodCallHandler, FlutterPlugin,
 			view = this.activity.getWindow().getDecorView().getRootView();
 			view.setDrawingCacheEnabled(true);
 			Bitmap bitmap = null;
-			if (this.renderer.getClass() == FlutterView.class) {
-				bitmap = ((FlutterView) this.renderer).getBitmap();
-			} else if (this.renderer.getClass() == FlutterRenderer.class) {
+			
+			// Updated to only use FlutterRenderer which is compatible with newer Flutter versions
+			if (this.renderer != null && this.renderer.getClass() == FlutterRenderer.class) {
 				bitmap = ((FlutterRenderer) this.renderer).getBitmap();
 			}
+			
+			// If we couldn't get a bitmap through the renderer, try to use the drawing cache
+			if (bitmap == null && view.getDrawingCache() != null) {
+				bitmap = Bitmap.createBitmap(view.getDrawingCache());
+			}
+			
 			return bitmap;
 		} catch (Exception ex) {
 			Log.println(Log.INFO, TAG, "Error taking screenshot: " + ex.getMessage());

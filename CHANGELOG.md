@@ -1,3 +1,9 @@
+## 1.2.9
+
+- Added new `captureScreenshot()` method that returns screenshot as Uint8List
+- This new method doesn't require storage permissions or save files to disk
+- Added optional quality parameter (default: 100) for controlling image quality
+
 ## 1.2.8
 
 - Removed dependency on deprecated `Registrar` class
